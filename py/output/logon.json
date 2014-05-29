@@ -1,0 +1,74 @@
+[
+    {
+        "keys": [
+            {
+                "path": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe", 
+                "Publisher": "VMware, Inc.", 
+                "name": "VMware User Process", 
+                "Description": "VMware Tools Core Service"
+            }
+        ], 
+        "*": "keys", 
+        "reg": "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    }, 
+    {
+        "keys": [
+            {
+                "path": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe", 
+                "Publisher": "VMware, Inc.", 
+                "name": "VMware User Process", 
+                "Description": "VMware Tools Core Service"
+            }
+        ], 
+        "*": "keys", 
+        "reg": "HKLM\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run"
+    }, 
+    {
+        "keys": [
+            {
+                "path": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe", 
+                "Publisher": "VMware, Inc.", 
+                "name": "VMware User Process", 
+                "Description": "VMware Tools Core Service"
+            }
+        ], 
+        "*": "keys", 
+        "reg": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+    }, 
+    {
+        "keys": [
+            {
+                "path": "C:\\Program Files\\VMware\\VMware Tools\\vmtoolsd.exe", 
+                "Publisher": "VMware, Inc.", 
+                "name": "VMware User Process", 
+                "Description": "VMware Tools Core Service"
+            }
+        ], 
+        "*": "keys", 
+        "reg": "HKCU\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run"
+    }, 
+    {
+        "Publisher": "Microsoft Corporation", 
+        "Description": "RDP Clip \u76d1\u89c6\u7a0b\u5e8f", 
+        "*": "key", 
+        "path": "c:\\windows\\system32\\rdpclip.exe", 
+        "reg": "HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd", 
+        "name": "rdpclip"
+    }, 
+    {
+        "Publisher": "Microsoft Corporation", 
+        "Description": "Userinit \u767b\u5f55\u5e94\u7528\u7a0b\u5e8f", 
+        "*": "key", 
+        "path": "C:\\Windows\\system32\\userinit.exe", 
+        "reg": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon", 
+        "name": "C:\\Windows\\system32\\userinit.exe,"
+    }, 
+    {
+        "Publisher": "Microsoft Corporation", 
+        "Description": "Windows \u8d44\u6e90\u7ba1\u7406\u5668", 
+        "*": "key", 
+        "path": "C:\\Windows\\SysWOW64\\explorer.exe", 
+        "reg": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon", 
+        "name": "explorer.exe"
+    }
+]

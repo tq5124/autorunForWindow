@@ -1,0 +1,44 @@
+[
+	{
+		"method": "readKeys",
+		"hiveKey": "HKLM",
+		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": ""
+	},
+	{
+		"method": "readKeys",
+		"hiveKey": "HKLM",
+		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": ""
+	},
+	{
+		"method": "readKeys",
+		"hiveKey": "HKCU",
+		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": ""
+	},
+	{
+		"method": "readKeys",
+		"hiveKey": "HKCU",
+		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": ""
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd",
+		"name": "StartupPrograms"
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "Userinit"
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "Shell"
+	}
+]
