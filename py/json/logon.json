@@ -40,5 +40,9 @@
 		"hiveKey": "HKLM",
 		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
 		"name": "Shell"
+	},
+	{
+		"method": "sysFiles",
+		"path": "C:%HomePath%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 	}
 ]

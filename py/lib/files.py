@@ -2,6 +2,7 @@ import os
 import win32api
 
 def getFileProperties(fname):
+    # from http://stackoverflow.com/a/7993095/2301667
     """
     Read all properties of the given file return them as a dictionary.
     """
@@ -46,4 +47,4 @@ def getAllFiles(path):
         return 'error'
 
 if __name__ == "__main__":
-    print getFileProperties('C:\Windows\system32\userinit.exe')['StringFileInfo']['FileDescription']
+    print getFileProperties("C:\\Users\\tq5124\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\desktop.ini")

@@ -16,40 +16,69 @@ def logon(input='json/logon.json'):
 	data = json.load(file(input))
 	output = []
 	for item in data:
-		info = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'])
+		# different method to read details, like registry or folders
 		print "read from ", item['path'], '...',
-		try:
-			if (item['method'][-1:] == 's'):
-				temp = []
-				for i in info:
-					name = i[1]
-					path = pathCheck(i[2])
+		if (item['method'][:4] == 'read'):
+			# read and out from registry
+			info = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'])
+			try:
+				if (item['method'][-1:] == 's'):
+					temp = []
+					for i in info:
+						name = i[1]
+						path = pathCheck(i[2])
+						fileInfo = files.getFileProperties(path)
+						temp.append({
+							"name": name,
+							"path": path,
+							"Description": fileInfo['StringFileInfo']['FileDescription'],
+							"Publisher": fileInfo['StringFileInfo']['CompanyName']
+						})
+					output.append({
+						"*": "keys",
+						"path": item['hiveKey'] + "\\" + item['path'],
+						"keys": temp
+					})
+				else:
+					path = pathCheck(info)
 					fileInfo = files.getFileProperties(path)
-					temp.append({
-						"name": name,
+					output.append({
+						"*": "key",
+						"path": item['hiveKey'] + "\\" + item['path'],
+						"name": info,
 						"path": path,
 						"Description": fileInfo['StringFileInfo']['FileDescription'],
 						"Publisher": fileInfo['StringFileInfo']['CompanyName']
 					})
-				output.append({
-					"*": "keys",
-					"reg": item['hiveKey'] + "\\" + item['path'],
-					"keys": temp
-				})
-			else:
-				path = pathCheck(info)
-				fileInfo = files.getFileProperties(path)
-				output.append({
-					"*": "key",
-					"reg": item['hiveKey'] + "\\" + item['path'],
-					"name": info,
-					"path": path,
-					"Description": fileInfo['StringFileInfo']['FileDescription'],
-					"Publisher": fileInfo['StringFileInfo']['CompanyName']
-				})
+				print 'done'
+			except Exception, e:
+				print 'failed: ', info, e
+		elif (item['method'][:3] == 'sys'):
+			# read and out from folder
+			path = pathCheck(item['path'])
+			info = files.getAllFiles(path)
+			temp = []
+			for f in info:
+				try:
+					print 
+					print path + '\\' + f
+					fileInfo = files.getFileProperties(path + '\\' + f)
+					print path + '\\' + fileInfo
+					temp.append({
+						"name": f,
+						"path": path,
+						"Description": fileInfo['StringFileInfo']['FileDescription'],
+						"Publisher": fileInfo['StringFileInfo']['CompanyName']
+					})
+				except: 
+					pass
+			output.append({
+				"*": "files",
+				"path": path,
+				"keys": temp
+			})
 			print 'done'
-		except Exception, e:
-			print 'failed: ', info, e
+
 
 	# output to json
 	print 
