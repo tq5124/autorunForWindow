@@ -5,7 +5,7 @@ def rePath(path):
 	# clean the "\"" of a path
 	try:
 		# replace the system var like %PATH%
-		replace_array = re.findall('%[a-zA-Z]*%', path)
+		replace_array = re.findall('%[a-zA-Z0-9()]*%', path)
 		for replace_pre in replace_array:
 			replace_aft = os.environ.get(replace_pre[1:-1])
 			path = path.replace(replace_pre, replace_aft)
