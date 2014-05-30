@@ -1,8 +1,9 @@
 import os
-import win32api
+import win32api, win32com.client 
 
 def getFileProperties(fname):
     # from http://stackoverflow.com/a/7993095/2301667
+
     """
     Read all properties of the given file return them as a dictionary.
     """
@@ -12,9 +13,19 @@ def getFileProperties(fname):
         'FileVersion', 'OriginalFilename', 'SpecialBuild')
 
     props = {'FixedFileInfo': None, 'StringFileInfo': None, 'FileVersion': None}
-
+    
+    # if *.lnk, redirect to the real file
     try:
-        # backslash as parm returns dictionary of numeric info corresponding to VS_FIXEDFILEINFO struc
+        shell = win32com.client.Dispatch("WScript.Shell")
+        shortcut = shell.CreateShortCut(fname)
+        fname = shortcut.Targetpath
+        props = getFileProperties(fname)
+        props['Path'] = fname
+        return props
+    except:
+        pass
+    try:
+        # backslash as parm returns dictionary of numeric info corresponding to VS_FIXEDFILEINFO struct
         fixedInfo = win32api.GetFileVersionInfo(fname, '\\')
         props['FixedFileInfo'] = fixedInfo
         props['FileVersion'] = "%d.%d.%d.%d" % (fixedInfo['FileVersionMS'] / 65536,
@@ -36,7 +47,7 @@ def getFileProperties(fname):
 
         props['StringFileInfo'] = strInfo
     except:
-        pros = 'unknow'
+        pass
 
     return props
 
@@ -47,4 +58,4 @@ def getAllFiles(path):
         return 'error'
 
 if __name__ == "__main__":
-    print getFileProperties("C:\\Users\\tq5124\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\desktop.ini")
+    print getFileProperties("C:\\Users\\tq5124\\AppData\\Roaming\\Wandoujia2\\Applications\\2.76.0.6280\\cmd.exe")

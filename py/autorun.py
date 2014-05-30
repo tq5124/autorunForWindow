@@ -28,11 +28,17 @@ def logon(input='json/logon.json'):
 						name = i[1]
 						path = pathCheck(i[2])
 						fileInfo = files.getFileProperties(path)
+						try:
+							desc = fileInfo['StringFileInfo']['FileDescription']
+							pub = fileInfo['StringFileInfo']['CompanyName']
+						except:
+							desc= ''
+							pub = ''
 						temp.append({
 							"name": name,
 							"path": path,
-							"Description": fileInfo['StringFileInfo']['FileDescription'],
-							"Publisher": fileInfo['StringFileInfo']['CompanyName']
+							"Description": desc,
+							"Publisher": pub
 						})
 					output.append({
 						"*": "keys",
@@ -60,15 +66,24 @@ def logon(input='json/logon.json'):
 			temp = []
 			for f in info:
 				try:
-					print 
-					print path + '\\' + f
 					fileInfo = files.getFileProperties(path + '\\' + f)
-					print path + '\\' + fileInfo
+					try:
+						path = fileInfo['Path']
+					except:
+						pass
+					try:
+						desc = fileInfo['StringFileInfo']['FileDescription']
+					except:
+						desc = ''
+					try:
+						pub = fileInfo['StringFileInfo']['CompanyName']
+					except:
+						pub = ''
 					temp.append({
 						"name": f,
 						"path": path,
-						"Description": fileInfo['StringFileInfo']['FileDescription'],
-						"Publisher": fileInfo['StringFileInfo']['CompanyName']
+						"Description": desc,
+						"Publisher": pub
 					})
 				except: 
 					pass
