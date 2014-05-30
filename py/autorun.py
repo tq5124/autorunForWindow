@@ -8,6 +8,7 @@ import json
 import lib.registry as reg
 import lib.files as files
 import lib.regex as regex
+import lib.service as ser
 
 gl = {}
 
@@ -103,6 +104,15 @@ def logon(input='json/logon.json'):
 	print 'done'
 	print
 
+def service():
+	print "Service:\nloading...",
+	output = ser.getService('Auto')
+	for i in output:
+		i['path'] = pathCheck(i['path'])
+	with open('output/service.json', 'w') as outfile:
+		json.dump(output, outfile, indent=4)
+	print "done"
+
 def systemPath(input='json/systemPath.json'):
 	print 'reading system path files ...',
 	gl['systemPath'] = {}
@@ -122,9 +132,12 @@ def pathCheck(path):
 			# if only *.* provided, first change to *, then find path
 			path = regex.reFileName(path)
 			path = gl['systemPath'][path]
+	except:
+		pass
+	try:
 		path = regex.rePath(path)
 	except:
-		path = ''
+		pass
 	return path
 
 
@@ -139,3 +152,4 @@ if __name__ == "__main__":
 
 	# read logon items from registry and folder
 	logon('json/logon.json')
+	service()

@@ -19,7 +19,7 @@ def rePath(path):
 		pass
 	try:
 		# clean path like " C:\Windows\system32\userinit.exe,"
-		path = re.match('[a-zA-Z].*[a-zA-Z]', path).group(0)
+		path = re.match('[a-zA-Z]:.*\.[a-zA-Z]*', path).group(0)
 	except:
 		pass
 	return path
