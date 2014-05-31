@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AutoRun For Window</title>
+	<link rel="stylesheet" href="assets/css/stylesheet.css">
+</head>
+<body>
+	<div class="container" ng-app="autorunModule">
+		<div class="page-header">
+			<h1>AutoRun For Window<small> done by tq5124, 5110369017</small></h1>
+		</div>
+		<div class="row" ng-controller="MasterCtrl">
+			<div class="col-md-2 col-xs-12">
+				<ul class="nav nav-stacked nav-pills">
+					<li ng-class="{active: tab === 'logon'}" ng-click="changeTab('logon')"><a href="#">logon</a></li>
+					<li ng-class="{active: tab === 'services'}" ng-click="changeTab('services')"><a href="#">services</a></li>
+					<li ng-class="{active: tab === 'internetExplorer'}" ng-click="changeTab('internetExplorer')"><a href="#">internetExplorer</a></li>
+					<li ng-class="{active: tab === 'drivers'}" ng-click="changeTab('drivers')"><a href="#">drivers</a></li>
+				</ul>
+			</div>
+			<div class="col-md-10 col-xs-12">
+				<div ng-show="tab === ''">请在右侧菜单中选择查看项</div>
+				<div ng-if="tab === 'logon'">
+					<div ng-repeat="reg in tabData">
+						<h4 style="color: #428bca;">
+							<span ng-show="reg.type === 'files'" class="glyphicon glyphicon-folder-open"></span>
+							<span ng-show="reg.type === 'key' || reg.type === 'keys'" class="glyphicon glyphicon-list-alt"></span>
+							&nbsp;&nbsp;{{reg.path}}
+						</h4>
+						<table class="table table-responsive table-hover table-condensed">
+							<tr>
+								<th>Name</th>
+								<th>Publisher</th>
+								<th>Description</th>
+								<th>Path</th>
+							</tr>
+							<tr ng-repeat="item in reg.keys">
+								<td>{{item.name}}</td>
+								<td>{{item.pub}}</td>
+								<td>{{item.desc}}</td>
+								<td>{{item.path}}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div ng-if="tab === 'services'">
+					<table class="table table-responsive table-hover table-condensed">
+						<tr>
+							<th>Name</th>
+							<th>ServiceType</th>
+							<th>Publisher</th>
+							<th>Description</th>
+							<th>Path</th>
+						</tr>
+						<tr ng-repeat="row in tabData">
+							<td>{{row.name}}</td>
+							<td>{{row.serviceType}}</td>
+							<td>{{row.pub}}</td>
+							<td>{{row.desc}}</td>
+							<td>{{row.path}}</td>
+						</tr>
+					</table>
+				</div>
+				<div ng-if="tab === 'internetExplorer'">
+					<table class="table table-responsive table-hover table-condensed">
+						<tr>
+							<th>Name</th>
+							<th>Publisher</th>
+							<th>Description</th>
+							<th>Path</th>
+						</tr>
+						<tr ng-repeat="row in tabData">
+							<td>{{row.name}}</td>
+							<td>{{row.pub}}</td>
+							<td>{{row.desc}}</td>
+							<td>{{row.path}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<script src="py/output/logon.js"></script>
+	<script src="py/output/services.js"></script>
+	<script src="py/output/internetExplorer.js"></script>
+	<script src="assets/js/javascript.min.js"></script>
+	<script src="assets/js/autorun.js"></script>
+</body>
+</html>

@@ -21,7 +21,7 @@ def logon(input='json/logon.json'):
 		print "read from ", item['path'], '...',
 		if (item['method'][:4] == 'read'):
 			# read and out from registry
-			info = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'])
+			info = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
 			try:
 				if (item['method'][-1:] == 's'):
 					temp = []
@@ -38,11 +38,11 @@ def logon(input='json/logon.json'):
 						temp.append({
 							"name": name,
 							"path": path,
-							"Description": desc,
-							"Publisher": pub
+							"desc": desc,
+							"pub": pub
 						})
 					output.append({
-						"*": "keys",
+						"type": "keys",
 						"path": item['hiveKey'] + "\\" + item['path'],
 						"keys": temp
 					})
@@ -50,12 +50,14 @@ def logon(input='json/logon.json'):
 					path = pathCheck(info)
 					fileInfo = files.getFileProperties(path)
 					output.append({
-						"*": "key",
+						"type": "key",
 						"path": item['hiveKey'] + "\\" + item['path'],
-						"name": info,
-						"path": path,
-						"Description": fileInfo['StringFileInfo']['FileDescription'],
-						"Publisher": fileInfo['StringFileInfo']['CompanyName']
+						"keys": [{
+							"name": info,
+							"path": path,
+							"desc": fileInfo['StringFileInfo']['FileDescription'],
+							"pub": fileInfo['StringFileInfo']['CompanyName']
+						}]
 					})
 				print 'done'
 			except Exception, e:
@@ -69,7 +71,7 @@ def logon(input='json/logon.json'):
 				try:
 					fileInfo = files.getFileProperties(path + '\\' + f)
 					try:
-						path = fileInfo['Path']
+						f_path = fileInfo['Path']
 					except:
 						pass
 					try:
@@ -82,14 +84,14 @@ def logon(input='json/logon.json'):
 						pub = ''
 					temp.append({
 						"name": f,
-						"path": path,
-						"Description": desc,
-						"Publisher": pub
+						"path": f_path,
+						"desc": desc,
+						"pub": pub
 					})
 				except: 
 					pass
 			output.append({
-				"*": "files",
+				"type": "files",
 				"path": path,
 				"keys": temp
 			})
@@ -108,12 +110,74 @@ def logon(input='json/logon.json'):
 def service():
 	print "Service:\nloading...",
 	output = ser.getService('Auto')
-	# for i in output:
-	# 	i['path'] = pathCheck(i['path'])
+	for i in output:
+		i['path'] = pathCheck(i['path'])
+		fileInfo = files.getFileProperties(i['path'])
+		try:
+			i['desc'] = fileInfo['StringFileInfo']['FileDescription']
+		except:
+			i['desc'] = ""
+		try:
+			i['pub'] = fileInfo['StringFileInfo']['CompanyName']
+		except:
+			i['pub'] = ""
 	with open('output/services.js', 'w') as outfile:
 		outfile.write("var services = ")
 		json.dump(output, outfile, indent=4)
 	print "done"
+	print
+
+def internetExplorer():
+	print "Explorer:"
+	print "loading..."
+	output = []
+	allBHO = reg.readRegistry("readItems", "HKLM", "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects")
+	for bho in allBHO:
+		clsid_name = reg.readRegistry("readValue", "HKLM", "Software\\Classes\\CLSID\\" + bho, "")
+		clsid_path = reg.readRegistry("readValue", "HKLM", "Software\\Classes\\CLSID\\" + bho + "\\InprocServer32", "")
+		fileInfo = files.getFileProperties(clsid_path)
+		try:
+			clsid_desc = fileInfo['StringFileInfo']['FileDescription']
+		except:
+			clsid_desc = ""
+		try:
+			clsid_pub = fileInfo['StringFileInfo']['CompanyName']
+		except:
+			clsid_pub = ""
+		output.append({
+			"name": clsid_name,
+			"path": clsid_path,
+			"desc": clsid_desc,
+			"pub": clsid_pub
+		})
+
+	allBHO = reg.readRegistry("readItems", "HKLM", "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects")
+	for bho in allBHO:
+		clsid_name = reg.readRegistry("readValue", "HKLM", "Software\\Wow6432Node\\Classes\\CLSID\\" + bho, "")
+		clsid_path = reg.readRegistry("readValue", "HKLM", "Software\\Wow6432Node\\Classes\\CLSID\\" + bho + "\\InprocServer32", "")
+		fileInfo = files.getFileProperties(clsid_path)
+		try:
+			clsid_desc = fileInfo['StringFileInfo']['FileDescription']
+		except:
+			clsid_desc = ""
+		try:
+			clsid_pub = fileInfo['StringFileInfo']['CompanyName']
+		except:
+			clsid_pub = ""
+		output.append({
+			"name": clsid_name,
+			"path": clsid_path,
+			"desc": clsid_desc,
+			"pub": clsid_pub
+		})
+
+
+	with open('output/internetExplorer.js', 'w') as outfile:
+		outfile.write("var internetExplorer = ")
+		json.dump(output, outfile, indent=4)
+	print "done"
+	print 
+
 
 def systemPath(input='json/systemPath.json'):
 	print 'reading system path files ...',
@@ -145,13 +209,13 @@ def pathCheck(path):
 
 if __name__ == "__main__":
 	# debug
-	# print fileInfo()
-	# print reg.readRegistry('readValue', 'HKLM', 'System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd', 'StartupPrograms')
+	#internetExplorer()
 	#exit()
 	
 	# read system path files as a global resource
 	systemPath('json/systemPath.json')
 
-	# read logon items from registry and folder
+	# read items from registry and folder
 	logon('json/logon.json')
 	service()
+	internetExplorer()
