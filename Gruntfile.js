@@ -13,6 +13,8 @@ module.exports = function(grunt) {
         src: [
           './assets/bower/jquery/dist/jquery.js',
           './assets/bower/bootstrap/dist/js/bootstrap.js',
+          './assets/bower/angular/angular.min.js',
+          './assets/bower/angular-ui-router/release/angular-ui-router.min.js',
         ],
         //合并后放置在
         dest: './assets/js/javascript.js',

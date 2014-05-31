@@ -99,7 +99,8 @@ def logon(input='json/logon.json'):
 	# output to json
 	print 
 	print "writting into output/logon.json ...",
-	with open('output/logon.json', 'w') as outfile:
+	with open('output/logon.js', 'w') as outfile:
+		outfile.write("var logon = ")
 		json.dump(output, outfile, indent=4)
 	print 'done'
 	print
@@ -107,9 +108,10 @@ def logon(input='json/logon.json'):
 def service():
 	print "Service:\nloading...",
 	output = ser.getService('Auto')
-	for i in output:
-		i['path'] = pathCheck(i['path'])
-	with open('output/service.json', 'w') as outfile:
+	# for i in output:
+	# 	i['path'] = pathCheck(i['path'])
+	with open('output/services.js', 'w') as outfile:
+		outfile.write("var services = ")
 		json.dump(output, outfile, indent=4)
 	print "done"
 
