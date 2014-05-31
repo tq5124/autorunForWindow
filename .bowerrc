@@ -1,0 +1,6 @@
+{
+  "directory": "asset/bower",
+  "proxy" : "http://127.0.0.1:8087",
+  "https-proxy" : "http://127.0.0.1:8087",
+  "strict-ssl": false 
+}
