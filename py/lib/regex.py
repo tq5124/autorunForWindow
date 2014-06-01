@@ -4,6 +4,14 @@ def rePath(path):
 	# clean the args of a path
 	# clean the "\"" of a path
 	try:
+		# replace "system32" at the beginning of the string, most seen in drviers
+		if (path[:8] == 'system32'):
+			path = "%SystemRoot%\\" + path
+		if (path[:11] == '\SystemRoot'):
+			path = "%SystemRoot%" + path[11:]
+	except:
+		pass
+	try:
 		# replace the system var like %PATH%
 		replace_array = re.findall('%[a-zA-Z0-9()]*%', path)
 		for replace_pre in replace_array:

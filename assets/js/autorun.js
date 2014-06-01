@@ -6,11 +6,19 @@
   });
 
   app.controller('MasterCtrl', function($scope, $http){
-    $scope.outputs = {
-      "logon": logon,
-      "services": services,
-      "internetExplorer": internetExplorer
-    };
+    $scope.defaultText = "请在右侧菜单中选择查看项"
+
+    try{
+      $scope.outputs = {
+        "logon": logon,
+        "services": services,
+        "internetExplorer": internetExplorer,
+        "drivers": drivers
+      };
+    }catch(err){
+      $scope.defaultText = "请先运行py脚本生成输出文件";
+    }
+      
 
     $scope.tab = "";
     $scope.tabData = "";

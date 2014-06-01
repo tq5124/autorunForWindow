@@ -58,4 +58,4 @@ def getAllFiles(path):
         return 'error'
 
 if __name__ == "__main__":
-    print getFileProperties("C:\\Users\\tq5124\\AppData\\Roaming\\Wandoujia2\\Applications\\2.76.0.6280\\cmd.exe")
+    print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")

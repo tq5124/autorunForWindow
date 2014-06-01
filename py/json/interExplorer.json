@@ -1,0 +1,67 @@
+[
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKCU",
+		"reg": "Software\\Microsoft\\Internet Explorer\\UrlSearchHooks",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Microsoft\\Internet Explorer\\Toolbar",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Internet Explorer\\Toolbar",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKCU",
+		"reg": "Software\\Microsoft\\Internet Explorer\\Explorer Bars",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Microsoft\\Internet Explorer\\Explorer Bars",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKCU",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Internet Explorer\\Explorer Bars",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Internet Explorer\\Explorer Bars",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKCU",
+		"reg": "Software\\Microsoft\\Internet Explorer\\Extensions",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Microsoft\\Internet Explorer\\Extensions",
+		"clsid": "Software\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKCU",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Internet Explorer\\Extensions",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	},
+	{
+		"hiveKey": "HKLM",
+		"reg": "Software\\Wow6432Node\\Microsoft\\Internet Explorer\\Extensions",
+		"clsid": "Software\\Wow6432Node\\Classes\\CLSID\\"
+	}
+]

@@ -23,6 +23,7 @@ def logon(input='json/logon.json'):
 			# read and out from registry
 			info = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
 			try:
+				assert(info)
 				if (item['method'][-1:] == 's'):
 					temp = []
 					for i in info:
@@ -61,50 +62,50 @@ def logon(input='json/logon.json'):
 					})
 				print 'done'
 			except Exception, e:
-				print 'failed: ', info, e
+				print 'failed: registry no found'
 		elif (item['method'][:3] == 'sys'):
 			# read and out from folder
-			path = pathCheck(item['path'])
-			info = files.getAllFiles(path)
-			temp = []
-			for f in info:
-				try:
-					fileInfo = files.getFileProperties(path + '\\' + f)
+			try:
+				assert(info)
+				path = pathCheck(item['path'])
+				info = files.getAllFiles(path)
+				temp = []
+				for f in info:
 					try:
-						f_path = fileInfo['Path']
-					except:
+						fileInfo = files.getFileProperties(path + '\\' + f)
+						try:
+							f_path = fileInfo['Path']
+						except:
+							pass
+						try:
+							desc = fileInfo['StringFileInfo']['FileDescription']
+						except:
+							desc = ''
+						try:
+							pub = fileInfo['StringFileInfo']['CompanyName']
+						except:
+							pub = ''
+						temp.append({
+							"name": f,
+							"path": f_path,
+							"desc": desc,
+							"pub": pub
+						})
+					except: 
 						pass
-					try:
-						desc = fileInfo['StringFileInfo']['FileDescription']
-					except:
-						desc = ''
-					try:
-						pub = fileInfo['StringFileInfo']['CompanyName']
-					except:
-						pub = ''
-					temp.append({
-						"name": f,
-						"path": f_path,
-						"desc": desc,
-						"pub": pub
-					})
-				except: 
-					pass
-			output.append({
-				"type": "files",
-				"path": path,
-				"keys": temp
-			})
-			print 'done'
-
+				output.append({
+					"type": "files",
+					"path": path,
+					"keys": temp
+				})
+				print 'done'
+			except:
+				print 'failed: registry no found'
 
 	# output to json
-	print 
-	print "writting into output/logon.json ...",
 	with open('output/logon.js', 'w') as outfile:
 		outfile.write("var logon = ")
 		json.dump(output, outfile, indent=4)
-	print 'done'
 	print
 
 def service():
@@ -128,15 +129,14 @@ def service():
 	print
 
 def internetExplorer(input="json/interExplorer.json"):
-	print "Explorer:"
-	print "loading..."
+	print "Explorer:\n"
 	data = json.load(file(input))
 	output = []
 	for place in data:
+		print "reading from ", place['reg'], "...",
 		try:
 			temp = []
 			allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
-			print allBHO
 			for bho in allBHO:
 				clsid_name = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho, "")
 				clsid_path = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho + "\\InprocServer32", "")
@@ -155,8 +155,9 @@ def internetExplorer(input="json/interExplorer.json"):
 					"desc": clsid_desc,
 					"pub": clsid_pub
 				})
+			print "done"
 		except Exception, e:
-			pass
+			print "failed: registry no found"
 		output.append({
 			"reg": place['hiveKey'] + '\\' + place['reg'],
 			"keys": temp
@@ -165,9 +166,41 @@ def internetExplorer(input="json/interExplorer.json"):
 	with open('output/internetExplorer.js', 'w') as outfile:
 		outfile.write("var internetExplorer = ")
 		json.dump(output, outfile, indent=4)
-	print "done"
 	print 
 
+def drivers():
+	print "drivers:\n"
+	output = []
+	services = reg.readRegistry("readItems", "HKLM", "SYSTEM\\CurrentControlSet\\services")
+	for item in services:
+		serviceType = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "Type")
+		if (serviceType != 1):
+			continue
+		print "read ", item, "...",
+		try:
+			imagePath = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "ImagePath")
+			imagePath = pathCheck(imagePath)
+			fileInfo = files.getFileProperties(imagePath)
+			try:
+				desc = fileInfo['StringFileInfo']['FileDescription']
+			except:
+				desc = ''
+			try:
+				pub = fileInfo['StringFileInfo']['CompanyName']
+			except:
+				pub = ''
+			output .append({
+				"name": item,
+				"path": imagePath,
+				"desc": desc,
+				"pub": pub
+			})
+			print "done"
+		except:
+			print "failed"
+	with open('output/drivers.js', 'w') as outfile:
+		outfile.write("var drivers = ")
+		json.dump(output, outfile, indent=4)
 
 def systemPath(input='json/systemPath.json'):
 	print 'reading system path files ...',
@@ -199,8 +232,8 @@ def pathCheck(path):
 
 if __name__ == "__main__":
 	# debug
-	#internetExplorer()
-	#exit()
+	drivers()
+	exit()
 	
 	# read system path files as a global resource
 	systemPath('json/systemPath.json')

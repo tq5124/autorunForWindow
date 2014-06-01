@@ -1,33 +1,5 @@
 [
 	{
-		"method": "readKeys",
-		"hiveKey": "HKLM",
-		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
-		"name": "",
-		"sysBit": 64
-	},
-	{
-		"method": "readKeys",
-		"hiveKey": "HKLM",
-		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
-		"name": "",
-		"sysBit": 32
-	},
-	{
-		"method": "readKeys",
-		"hiveKey": "HKCU",
-		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
-		"name": "",
-		"sysBit": 64
-	},
-	{
-		"method": "readKeys",
-		"hiveKey": "HKCU",
-		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
-		"name": "",
-		"sysBit": 32
-	},
-	{
 		"method": "readValue",
 		"hiveKey": "HKLM",
 		"path": "System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd",
@@ -38,19 +10,66 @@
 		"method": "readValue",
 		"hiveKey": "HKLM",
 		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
-		"name": "Userinit",
+		"name": "AppSetup",
 		"sysBit": 64
 	},
 	{
 		"method": "readValue",
 		"hiveKey": "HKLM",
 		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
-		"name": "Shell",
+		"name": "AppSetup",
 		"sysBit": 64
 	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "Userinit",
+		"sysBit": 64
+	},	
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "Shell",
+		"sysBit": 64
+	},			
+	{
+		"method": "readKeys",
+		"hiveKey": "HKLM",
+		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": "",
+		"sysBit": 64
+	},
+	{
+		"method": "readKeys",
+		"hiveKey": "HKLM",
+		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": "",
+		"sysBit": 32
+	},
+	{
+		"method": "sysFiles",
+		"path": "%ProgramData%\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
+		"sysBit": 64
+	},	
 	{
 		"method": "sysFiles",
 		"path": "%UserProFile%\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup",
 		"sysBit": 64
-	}
+	},		
+	{
+		"method": "readKeys",
+		"hiveKey": "HKCU",
+		"path": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": "",
+		"sysBit": 64
+	},
+	{
+		"method": "readKeys",
+		"hiveKey": "HKCU",
+		"path": "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run",
+		"name": "",
+		"sysBit": 32
+	}			
 ]
