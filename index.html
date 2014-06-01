@@ -63,20 +63,26 @@
 					</table>
 				</div>
 				<div ng-if="tab === 'internetExplorer'">
-					<table class="table table-responsive table-hover table-condensed">
-						<tr>
-							<th>Name</th>
-							<th>Publisher</th>
-							<th>Description</th>
-							<th>Path</th>
-						</tr>
-						<tr ng-repeat="row in tabData">
-							<td>{{row.name}}</td>
-							<td>{{row.pub}}</td>
-							<td>{{row.desc}}</td>
-							<td>{{row.path}}</td>
-						</tr>
-					</table>
+					<div ng-repeat="item in tabData">
+						<h4 style="color: #428bca;">
+							<span class="glyphicon glyphicon-list-alt"></span>
+							&nbsp;&nbsp;{{item.reg}}
+						</h4>
+						<table class="table table-responsive table-hover table-condensed">
+							<tr>
+								<th>Name</th>
+								<th>Publisher</th>
+								<th>Description</th>
+								<th>Path</th>
+							</tr>
+							<tr ng-repeat="row in item.keys">
+								<td>{{row.name}}</td>
+								<td>{{row.pub}}</td>
+								<td>{{row.desc}}</td>
+								<td>{{row.path}}</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
 

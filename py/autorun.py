@@ -127,50 +127,40 @@ def service():
 	print "done"
 	print
 
-def internetExplorer():
+def internetExplorer(input="json/interExplorer.json"):
 	print "Explorer:"
 	print "loading..."
+	data = json.load(file(input))
 	output = []
-	allBHO = reg.readRegistry("readItems", "HKLM", "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects")
-	for bho in allBHO:
-		clsid_name = reg.readRegistry("readValue", "HKLM", "Software\\Classes\\CLSID\\" + bho, "")
-		clsid_path = reg.readRegistry("readValue", "HKLM", "Software\\Classes\\CLSID\\" + bho + "\\InprocServer32", "")
-		fileInfo = files.getFileProperties(clsid_path)
+	for place in data:
 		try:
-			clsid_desc = fileInfo['StringFileInfo']['FileDescription']
-		except:
-			clsid_desc = ""
-		try:
-			clsid_pub = fileInfo['StringFileInfo']['CompanyName']
-		except:
-			clsid_pub = ""
+			temp = []
+			allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
+			print allBHO
+			for bho in allBHO:
+				clsid_name = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho, "")
+				clsid_path = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho + "\\InprocServer32", "")
+				fileInfo = files.getFileProperties(clsid_path)
+				try:
+					clsid_desc = fileInfo['StringFileInfo']['FileDescription']
+				except:
+					clsid_desc = ""
+				try:
+					clsid_pub = fileInfo['StringFileInfo']['CompanyName']
+				except:
+					clsid_pub = ""
+				temp.append({
+					"name": clsid_name,
+					"path": clsid_path,
+					"desc": clsid_desc,
+					"pub": clsid_pub
+				})
+		except Exception, e:
+			pass
 		output.append({
-			"name": clsid_name,
-			"path": clsid_path,
-			"desc": clsid_desc,
-			"pub": clsid_pub
+			"reg": place['hiveKey'] + '\\' + place['reg'],
+			"keys": temp
 		})
-
-	allBHO = reg.readRegistry("readItems", "HKLM", "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects")
-	for bho in allBHO:
-		clsid_name = reg.readRegistry("readValue", "HKLM", "Software\\Wow6432Node\\Classes\\CLSID\\" + bho, "")
-		clsid_path = reg.readRegistry("readValue", "HKLM", "Software\\Wow6432Node\\Classes\\CLSID\\" + bho + "\\InprocServer32", "")
-		fileInfo = files.getFileProperties(clsid_path)
-		try:
-			clsid_desc = fileInfo['StringFileInfo']['FileDescription']
-		except:
-			clsid_desc = ""
-		try:
-			clsid_pub = fileInfo['StringFileInfo']['CompanyName']
-		except:
-			clsid_pub = ""
-		output.append({
-			"name": clsid_name,
-			"path": clsid_path,
-			"desc": clsid_desc,
-			"pub": clsid_pub
-		})
-
 
 	with open('output/internetExplorer.js', 'w') as outfile:
 		outfile.write("var internetExplorer = ")

@@ -25,12 +25,11 @@ def ReadRegistryValue(path, name="", start_key = None):
     except:
         return ""
 
-def ReadRegistryItems(hiveKey, key, sysBit=64):
+def ReadRegistryItems(hiveKey, key):
     """ Read all items under one key, return a array """
     # from http://stackoverflow.com/questions/5227107/python-code-to-read-registry
     data = []
-    sysBit = _winreg.KEY_WOW64_64KEY if sysBit == 64 else _winreg.KEY_WOW64_32KEY
-    keyHandle = _winreg.OpenKey(hiveKey, key, 0, _winreg.KEY_READ | sysBit)
+    keyHandle = _winreg.OpenKey(hiveKey, key, 0, _winreg.KEY_READ)
     for i in xrange(0, _winreg.QueryInfoKey(keyHandle)[0]):
         try:
             skey_name = _winreg.EnumKey(keyHandle, i)
@@ -42,9 +41,9 @@ def ReadRegistryItems(hiveKey, key, sysBit=64):
 def ReadRegistryKeys(hiveKey, key, sysBit=64):
     # read all keys under one key, return a dict
     data =[]
-    aReg = _winreg.ConnectRegistry(None,_winreg.HKEY_LOCAL_MACHINE)
+    aReg = _winreg.ConnectRegistry(None, hiveKey)
     sysBit = _winreg.KEY_WOW64_64KEY if sysBit == 64 else _winreg.KEY_WOW64_32KEY
-    aKey = _winreg.OpenKey(aReg, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 0, _winreg.KEY_READ | sysBit) 
+    aKey = _winreg.OpenKey(aReg, key, 0, _winreg.KEY_READ | sysBit) 
     for i in range(1024):                                           
         try:
             n,v,t = _winreg.EnumValue(aKey,i)
@@ -55,7 +54,7 @@ def ReadRegistryKeys(hiveKey, key, sysBit=64):
     return data
 
 def TestReadItems():
-    outputData = ReadRegistryItems(_winreg.HKEY_LOCAL_MACHINE, "Software")
+    outputData = ReadRegistryItems(_winreg.HKEY_LOCAL_MACHINE, "Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects")
     print outputData
 
 def TestReadKeys():
@@ -87,7 +86,7 @@ def readRegistry(method, hiveKey, key, name="", sysBit=64):
         return 'error'
 
     if (method == "readItems"):
-        return ReadRegistryItems(hiveKey, key, sysBit)
+        return ReadRegistryItems(hiveKey, key)
     elif (method == "readKeys"):
         return ReadRegistryKeys(hiveKey, key, sysBit)
     elif (method == "readValue"):
@@ -98,9 +97,9 @@ def readRegistry(method, hiveKey, key, name="", sysBit=64):
 
 if __name__ == "__main__":
     #Test()
-    #print 'test read items'
-    #TestReadItems()
+    print 'test read items'
+    TestReadItems()
     #print 'test read keys'
     #TestReadKeys()
-    print 'test read value'
-    TestReadValue()
+    #print 'test read value'
+    #TestReadValue()
