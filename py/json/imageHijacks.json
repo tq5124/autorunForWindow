@@ -1,0 +1,37 @@
+[
+	{
+		"method": "readItems",
+		"hiveKey": "HKLM",
+		"path": "Software\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options",
+		"name": "debugger",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "Software\\Microsoft\\Command Processor",
+		"name": "Autorun",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "Software\\Wow6432Node\\Microsoft\\Command Processor",
+		"name": "Autorun",
+		"sysBit": 32
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKCU",
+		"path": "Software\\Microsoft\\Command Processor",
+		"name": "Autorun",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Classes\\Exefile\\Shell\\Open\\Command",
+		"name": "(Default)",
+		"sysBit": 64
+	}
+]

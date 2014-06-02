@@ -1,0 +1,58 @@
+[
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "System",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "UIHost",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "System",
+		"sysBit": 64
+	},
+	{
+		"method": "readItems",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify",
+		"name": "",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "GinaDLL",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon",
+		"name": "Taskman",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKCU",
+		"path": "Control Panel\\Desktop",
+		"name": "Scrnsave.exe",
+		"sysBit": 64
+	},
+	{
+		"method": "readValue",
+		"hiveKey": "HKLM",
+		"path": "System\\CurrentControlSet\\Control\\BootVerificationProgram",
+		"name": "ImageName",
+		"sysBit": 64
+	}
+]

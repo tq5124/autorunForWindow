@@ -293,6 +293,111 @@ def winsocket():
 		outfile.write("var winsocket = ")
 		json.dump(output, outfile, indent=4)
 
+def winlogon(input='json/winLogon.json'):
+	print "winlogon:"
+	output = []
+	data = json.load(file(input))
+	for item in data:
+		temp = []
+		try:
+			print "read from ", item['path'], '...',
+			if (item['method'] == 'readValue'):
+				name = item['name']
+				path = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
+				path = pathCheck(path)
+				pub, desc = getDescPub(files.getFileProperties(path))
+				temp.append({
+					"name": name,
+					"path": path,
+					"desc": desc,
+					"pub": pub
+				})
+			elif (item['method'] == 'readItems'):
+				allItems = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
+				for i in allItems:
+					name = i
+					path = reg.readRegistry('readValue', 'HKLM', item['path'] + "\\" + i, 'DllName', item['sysBit'])
+					path = pathCheck(path)
+					pub, desc = getDescPub(files.getFileProperties(path))
+					temp.append({
+						"name": name,
+						"path": path,
+						"desc": desc,
+						"pub": pub
+					})
+			print "done"
+			output.append({
+				"path": item['hiveKey'] + '\\' + item['path'],
+				"keys": temp,
+				"type": 'key'
+			})
+		except:
+			print "fail"
+			output.append({
+				"path": item['hiveKey'] + '\\' + item['path'],
+				"keys": [],
+				"type": 'unknow'
+			})
+
+	with open("output/winLogon.js", 'w') as outfile:
+		outfile.write("var winLogon = ")
+		json.dump(output, outfile, indent=4)
+
+def imageHijacks(input='json/imageHijacks.json'):
+	print "winlogon:"
+	output = []
+	data = json.load(file(input))
+	for item in data:
+		temp = []
+		try:
+			print "read from ", item['path'], '...',
+			if (item['method'] == 'readValue'):
+				name = item['name']
+				path = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
+				path = pathCheck(path)
+				pub, desc = getDescPub(files.getFileProperties(path))
+				temp.append({
+					"name": name,
+					"path": path,
+					"desc": desc,
+					"pub": pub
+				})
+			elif (item['method'] == 'readItems'):
+				allItems = reg.readRegistry(item['method'], item['hiveKey'], item['path'], '', item['sysBit'])
+				for i in allItems:
+					name = i
+					try:
+						path = reg.readRegistry('readValue', 'HKLM', item['path'] + "\\" + i, item['name'], item['sysBit'])
+						assert(path)
+					except:
+						continue
+					path = pathCheck(path)
+					pub, desc = getDescPub(files.getFileProperties(path))
+					temp.append({
+						"name": name,
+						"path": path,
+						"desc": desc,
+						"pub": pub
+					})
+			print "done"
+			output.append({
+				"path": item['hiveKey'] + '\\' + item['path'],
+				"keys": temp,
+				"type": 'key'
+			})
+		except:
+			print "fail"
+			output.append({
+				"path": item['hiveKey'] + '\\' + item['path'],
+				"keys": [],
+				"type": 'unknow'
+			})
+
+	with open("output/imageHijacks.js", 'w') as outfile:
+		outfile.write("var imageHijacks = ")
+		json.dump(output, outfile, indent=4)
+
+
 def getWinsockName(name):
 	if (name.find(".dll") == -1):
 		return name
@@ -364,8 +469,8 @@ if __name__ == "__main__":
 	systemPath('json/systemPath.json')
 
 	# debug
-	winsocket()
-	exit()
+	#winlogon()
+	#exit()
 
 	# read items from registry and folder
 	logon('json/logon.json')
@@ -375,3 +480,9 @@ if __name__ == "__main__":
 	scheduledTasks()
 	bootExecute()
 	knownDlls()
+	winsocket()
+	winlogon()
+	imageHijacks()
+
+	print
+	print "finish! open the index.html to see GUI output"

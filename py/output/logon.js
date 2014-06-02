@@ -2,10 +2,34 @@ var logon = [
     {
         "keys": [
             {
+                "path": "c:\\windows\\system32\\rdpclip.exe", 
+                "name": "rdpclip", 
+                "pub": "Microsoft Corporation", 
+                "desc": "RDP Clip \u76d1\u89c6\u7a0b\u5e8f"
+            }
+        ], 
+        "path": "HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd", 
+        "type": "key"
+    }, 
+    {
+        "keys": [
+            {
                 "path": "C:\\Windows\\system32\\userinit.exe", 
                 "name": "C:\\Windows\\system32\\userinit.exe,", 
                 "pub": "Microsoft Corporation", 
                 "desc": "Userinit \u767b\u5f55\u5e94\u7528\u7a0b\u5e8f"
+            }
+        ], 
+        "path": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon", 
+        "type": "key"
+    }, 
+    {
+        "keys": [
+            {
+                "path": "C:\\Windows\\SysWOW64\\explorer.exe", 
+                "name": "explorer.exe", 
+                "pub": "Microsoft Corporation", 
+                "desc": "Windows \u8d44\u6e90\u7ba1\u7406\u5668"
             }
         ], 
         "path": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon", 

@@ -17,7 +17,9 @@
         "scheduledTasks": scheduledTasks,
         "bootExecute": bootExecute,
         "knownDlls": knownDlls,
-        "winsocket": winsocket
+        "winsocket": winsocket,
+        "winLogon": winLogon,
+        "imageHijacks": imageHijacks
       };
     }catch(err){
       $scope.defaultText = "请先运行py脚本生成输出文件";

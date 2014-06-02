@@ -93,7 +93,7 @@ def readRegistry(method, hiveKey, key, name="", sysBit=64):
         hive = "HKEY_CURRENT_CONFIG"
     else:
         return 'error'
-
+    
     if (method == "readItems"):
         return ReadRegistryItems(hiveKey, key)
     elif (method == "readKeys"):
