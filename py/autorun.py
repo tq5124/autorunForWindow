@@ -266,6 +266,60 @@ def knownDlls():
 		outfile.write("var knownDlls = ")
 		json.dump(output, outfile, indent=4)
 
+def winsocket():
+	regPath = "HKLM\System\CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9"
+	print "winsocket providers:"
+	print "read from ", regPath, "...",
+	output = []
+	allsockets = reg.readRegistry("readItems", "HKLM", "System\CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9\Catalog_Entries")
+	for item in allsockets:
+		try:
+			name = reg.readRegistry("readValue", "HKLM", "System\CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9\Catalog_Entries\\" + item, "ProtocolName")
+			name = getWinsockName(name)
+			text = reg.readRegistry("readValue", "HKLM", "System\CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9\Catalog_Entries\\" + item, "PackedCatalogItem")
+			path = pathCheck(text[:text.find('.dll')] + ".dll")
+			pub, desc = getDescPub(files.getFileProperties(path))
+			output.append({
+				"name": name,
+				"path": path,
+				"desc": desc,
+				"pub": pub
+			})
+		except:
+			continue
+	print "done"
+	print
+	with open("output/winsocket.js", 'w') as outfile:
+		outfile.write("var winsocket = ")
+		json.dump(output, outfile, indent=4)
+
+def getWinsockName(name):
+	if (name.find(".dll") == -1):
+		return name
+	index = name.rfind("\\")
+	name = name[index+1:]
+	name = name.split(",")
+	dict = {
+		"wshtcpip.dll": {
+			"-60100": "MSAFD Tcpip [TCP/IP]",
+			"-60101": "MSAFD Tcpip [UDP/IP]",
+			"-60102": "MSAFD Tcpip [RAW/IP]",
+			"-60103": "Tcpip"
+		},
+		"wshqos.dll":{
+			"-100": "RSVP TCPv6 Service Provider",
+			"-101": "RSVP TCP Service Provider",
+			"-102":	"RSVP UDPv6 Service Provider",
+			"-103": "RSVP UDP Service Provider"
+		},
+		"wship6.dll":{
+			"-60100": "MSAFD Tcpip [TCP/IPv6]",
+			"-60101": "MSAFD Tcpip [UDP/IPv6]",
+			"-60102": "MSAFD Tcpip [RAW/IPv6]"
+		}
+	}
+	return dict[name[0]][name[1]]
+
 def getDescPub(fileInfo):
 	try:
 		desc = fileInfo['StringFileInfo']['FileDescription']
@@ -310,7 +364,7 @@ if __name__ == "__main__":
 	systemPath('json/systemPath.json')
 
 	# debug
-	knownDlls()
+	winsocket()
 	exit()
 
 	# read items from registry and folder
@@ -320,3 +374,4 @@ if __name__ == "__main__":
 	drivers()
 	scheduledTasks()
 	bootExecute()
+	knownDlls()

@@ -16,7 +16,8 @@
         "drivers": drivers,
         "scheduledTasks": scheduledTasks,
         "bootExecute": bootExecute,
-        "knownDlls": knownDlls
+        "knownDlls": knownDlls,
+        "winsocket": winsocket
       };
     }catch(err){
       $scope.defaultText = "请先运行py脚本生成输出文件";
