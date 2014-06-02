@@ -8,7 +8,6 @@ import json
 import lib.registry as reg
 import lib.files as files
 import lib.regex as regex
-import lib.service as ser
 
 gl = {}
 
@@ -30,12 +29,7 @@ def logon(input='json/logon.json'):
 						name = i[1]
 						path = pathCheck(i[2])
 						fileInfo = files.getFileProperties(path)
-						try:
-							desc = fileInfo['StringFileInfo']['FileDescription']
-							pub = fileInfo['StringFileInfo']['CompanyName']
-						except:
-							desc= ''
-							pub = ''
+						pub, desc = getDescPub(fileInfo)
 						temp.append({
 							"name": name,
 							"path": path,
@@ -77,14 +71,7 @@ def logon(input='json/logon.json'):
 							f_path = fileInfo['Path']
 						except:
 							pass
-						try:
-							desc = fileInfo['StringFileInfo']['FileDescription']
-						except:
-							desc = ''
-						try:
-							pub = fileInfo['StringFileInfo']['CompanyName']
-						except:
-							pub = ''
+						pub, desc = getDescPub(fileInfo)
 						temp.append({
 							"name": f,
 							"path": f_path,
@@ -109,28 +96,38 @@ def logon(input='json/logon.json'):
 	print
 
 def service():
-	print "Service:\n",
-	print "reading from wmi..."
-	output = ser.getService('Auto')
-	for i in output:
-		i['path'] = pathCheck(i['path'])
-		fileInfo = files.getFileProperties(i['path'])
+	print "Service:",
+	print "reading from HKLM\\SYSTEM\\CurrentControlSet\\services...",
+	output = []
+	services = reg.readRegistry("readItems", "HKLM", "SYSTEM\\CurrentControlSet\\services")
+	for item in services:
+		serviceType = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "Type")
+		serviceStart = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "Start")
+		if (serviceType == "" or serviceType == 1 or serviceType == 2 or serviceStart == "" or serviceStart == 3 or serviceStart == 4):
+			continue
 		try:
-			i['desc'] = fileInfo['StringFileInfo']['FileDescription']
+			imagePath = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item + "\\Parameters", "ServiceDll")
+			if imagePath == "":
+				imagePath = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "ImagePath")
+			imagePath = pathCheck(imagePath)
+			fileInfo = files.getFileProperties(imagePath)
+			pub, desc = getDescPub(fileInfo)
+			output .append({
+				"name": item,
+				"path": imagePath,
+				"desc": desc,
+				"pub": pub
+			})
 		except:
-			i['desc'] = ""
-		try:
-			i['pub'] = fileInfo['StringFileInfo']['CompanyName']
-		except:
-			i['pub'] = ""
+			pass
+	print "done"
+	print
 	with open('output/services.js', 'w') as outfile:
 		outfile.write("var services = ")
 		json.dump(output, outfile, indent=4)
-	print "done"
-	print
 
 def internetExplorer(input="json/interExplorer.json"):
-	print "Explorer:\n"
+	print "Explorer:"
 	data = json.load(file(input))
 	output = []
 	for place in data:
@@ -142,19 +139,12 @@ def internetExplorer(input="json/interExplorer.json"):
 				clsid_name = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho, "")
 				clsid_path = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho + "\\InprocServer32", "")
 				fileInfo = files.getFileProperties(clsid_path)
-				try:
-					clsid_desc = fileInfo['StringFileInfo']['FileDescription']
-				except:
-					clsid_desc = ""
-				try:
-					clsid_pub = fileInfo['StringFileInfo']['CompanyName']
-				except:
-					clsid_pub = ""
+				pub, desc = getDescPub(fileInfo)
 				temp.append({
 					"name": clsid_name,
 					"path": clsid_path,
-					"desc": clsid_desc,
-					"pub": clsid_pub
+					"desc": desc,
+					"pub": pub
 				})
 			print "done"
 		except Exception, e:
@@ -170,7 +160,7 @@ def internetExplorer(input="json/interExplorer.json"):
 	print 
 
 def drivers():
-	print "drivers:\n"
+	print "drivers:"
 	output = []
 	print "reading from HKLM\\SYSTEM\\CurrentControlSet\\services ... ",
 	services = reg.readRegistry("readItems", "HKLM", "SYSTEM\\CurrentControlSet\\services")
@@ -182,14 +172,7 @@ def drivers():
 			imagePath = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "ImagePath")
 			imagePath = pathCheck(imagePath)
 			fileInfo = files.getFileProperties(imagePath)
-			try:
-				desc = fileInfo['StringFileInfo']['FileDescription']
-			except:
-				desc = ''
-			try:
-				pub = fileInfo['StringFileInfo']['CompanyName']
-			except:
-				pub = ''
+			pub, desc = getDescPub(fileInfo)
 			output .append({
 				"name": item,
 				"path": imagePath,
@@ -199,9 +182,100 @@ def drivers():
 		except:
 			pass
 	print "done"
+	print
 	with open('output/drivers.js', 'w') as outfile:
 		outfile.write("var drivers = ")
 		json.dump(output, outfile, indent=4)
+
+def scheduledTasks():
+	taskPath = "C:\Windows\Tasks"
+	print "Secheduled Tasks:"
+	print "reading from ", taskPath, "...",
+	output = []
+	allTasks = files.getAllFiles(taskPath)
+	for item in allTasks:
+		if (item[-4:] != '.job'):
+			continue
+		path = files.readAsBinary(taskPath + '\\' + item, 0x46)
+		fileInfo = files.getFileProperties(path)
+		pub, desc = getDescPub(fileInfo)
+		output .append({
+			"name": item,
+			"path": path,
+			"desc": desc,
+			"pub": pub
+		})
+	print "done"
+	print
+	with open('output/scheduledTasks.js', 'w') as outfile:
+		outfile.write("var scheduledTasks = ")
+		json.dump(output, outfile, indent=4)
+
+def bootExecute():
+	regPath = "HKLM\System\CurrentControlSet\Control\Session Manager\BootExecute"
+	print "Boot Execute:"
+	print "read from ", regPath, "...",
+	output = {}
+	item = reg.readRegistry("readValue", "HKLM", "System\CurrentControlSet\Control\Session Manager", "BootExecute")
+	allBoot = item[0].split(" ")
+	for boot in allBoot:
+		try:
+			path = pathCheck(boot)
+			fileInfo = files.getFileProperties(path)
+			assert(fileInfo)
+			pub, desc = getDescPub(fileInfo)
+			output = {
+				"name": boot,
+				"path": path,
+				"desc": desc,
+				"pub": pub
+			}
+			break
+		except:
+			continue
+	print "done"
+	print
+	with open('output/bootExecute.js', 'w') as outfile:
+		outfile.write("var bootExecute = ")
+		json.dump(output, outfile, indent=4)
+
+def knownDlls():
+	regPath = "HKLM\System\CurrentControlSet\Control\Session Manager\KnownDlls"
+	print "Known Dlls:"
+	print "read from ", regPath, "...",
+	output = []
+	allDlls = reg.readRegistry("readKeys", "HKLM", "System\CurrentControlSet\Control\Session Manager\KnownDlls")
+	for item in allDlls:
+		try:
+			name = item[1]
+			if (name.find('Directory') >= 0):
+				continue
+			path = pathCheck(item[2])
+			pub, desc = getDescPub(files.getFileProperties(path))
+			output.append({
+				"name": name,
+				"path": path,
+				"desc": desc,
+				"pub": pub
+			})
+		except:
+			continue
+	print "done"
+	print
+	with open("output/knownDlls.js", 'w') as outfile:
+		outfile.write("var knownDlls = ")
+		json.dump(output, outfile, indent=4)
+
+def getDescPub(fileInfo):
+	try:
+		desc = fileInfo['StringFileInfo']['FileDescription']
+	except:
+		desc = ''
+	try:
+		pub = fileInfo['StringFileInfo']['CompanyName']
+	except:
+		pub = ''
+	return pub, desc
 
 def systemPath(input='json/systemPath.json'):
 	print 'reading system path files ...',
@@ -232,15 +306,17 @@ def pathCheck(path):
 
 
 if __name__ == "__main__":
-	# debug
-	#drivers()
-	#exit()
-	
 	# read system path files as a global resource
 	systemPath('json/systemPath.json')
+
+	# debug
+	knownDlls()
+	exit()
 
 	# read items from registry and folder
 	logon('json/logon.json')
 	service()
 	internetExplorer()
 	drivers()
+	scheduledTasks()
+	bootExecute()

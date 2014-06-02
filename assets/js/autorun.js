@@ -13,7 +13,10 @@
         "logon": logon,
         "services": services,
         "internetExplorer": internetExplorer,
-        "drivers": drivers
+        "drivers": drivers,
+        "scheduledTasks": scheduledTasks,
+        "bootExecute": bootExecute,
+        "knownDlls": knownDlls
       };
     }catch(err){
       $scope.defaultText = "请先运行py脚本生成输出文件";

@@ -1,4 +1,4 @@
-import os
+import os, struct
 import win32api, win32com.client 
 
 def getFileProperties(fname):
@@ -47,7 +47,7 @@ def getFileProperties(fname):
 
         props['StringFileInfo'] = strInfo
     except:
-        pass
+        props = {}
 
     return props
 
@@ -57,15 +57,16 @@ def getAllFiles(path):
     except:
         return 'error'
 
-def readAsBinary(path, offset, length):
+def readAsBinary(path, offset):
     try:
         with open(path, 'rb') as file_t:
             file_t.read(offset)
-            return file_t.read(length)
+            length = struct.unpack("h", file_t.read(2))
+            return file_t.read(length[0]*2)[::2]
     except Exception, e:
         print e
         return ""
 
 if __name__ == "__main__":
-    print readAsBinary("C:\Windows\Tasks\GoogleUpdateTaskMachineCore.job", 0x46, 16)
+    print readAsBinary("C:\Windows\Tasks\GoogleUpdateTaskMachineCore.job", 0x46)
     #print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")
