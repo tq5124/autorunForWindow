@@ -57,5 +57,15 @@ def getAllFiles(path):
     except:
         return 'error'
 
+def readAsBinary(path, offset, length):
+    try:
+        with open(path, 'rb') as file_t:
+            file_t.read(offset)
+            return file_t.read(length)
+    except Exception, e:
+        print e
+        return ""
+
 if __name__ == "__main__":
-    print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")
+    print readAsBinary("C:\Windows\Tasks\GoogleUpdateTaskMachineCore.job", 0x46, 16)
+    #print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")

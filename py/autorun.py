@@ -109,7 +109,8 @@ def logon(input='json/logon.json'):
 	print
 
 def service():
-	print "Service:\nloading...",
+	print "Service:\n",
+	print "reading from wmi..."
 	output = ser.getService('Auto')
 	for i in output:
 		i['path'] = pathCheck(i['path'])
@@ -171,12 +172,12 @@ def internetExplorer(input="json/interExplorer.json"):
 def drivers():
 	print "drivers:\n"
 	output = []
+	print "reading from HKLM\\SYSTEM\\CurrentControlSet\\services ... ",
 	services = reg.readRegistry("readItems", "HKLM", "SYSTEM\\CurrentControlSet\\services")
 	for item in services:
 		serviceType = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "Type")
 		if (serviceType != 1):
 			continue
-		print "read ", item, "...",
 		try:
 			imagePath = reg.readRegistry("readValue", "HKLM", "SYSTEM\\CurrentControlSet\\services\\" + item, "ImagePath")
 			imagePath = pathCheck(imagePath)
@@ -195,9 +196,9 @@ def drivers():
 				"desc": desc,
 				"pub": pub
 			})
-			print "done"
 		except:
-			print "failed"
+			pass
+	print "done"
 	with open('output/drivers.js', 'w') as outfile:
 		outfile.write("var drivers = ")
 		json.dump(output, outfile, indent=4)
@@ -232,8 +233,8 @@ def pathCheck(path):
 
 if __name__ == "__main__":
 	# debug
-	drivers()
-	exit()
+	#drivers()
+	#exit()
 	
 	# read system path files as a global resource
 	systemPath('json/systemPath.json')
@@ -242,3 +243,4 @@ if __name__ == "__main__":
 	logon('json/logon.json')
 	service()
 	internetExplorer()
+	drivers()
