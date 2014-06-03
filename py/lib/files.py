@@ -69,4 +69,4 @@ def readAsBinary(path, offset):
 
 if __name__ == "__main__":
     print readAsBinary("C:\Windows\Tasks\GoogleUpdateTaskMachineCore.job", 0x46)
-    #print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")
+    print getFileProperties("C:\Windows\system32\DRIVERS\WUDFRd.sys")
