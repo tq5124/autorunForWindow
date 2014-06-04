@@ -1,26 +1,13 @@
 var imageHijacks = [
     {
-        "keys": [
-            {
-                "path": "debugger", 
-                "name": "debug.exe", 
-                "pub": "", 
-                "desc": ""
-            }, 
-            {
-                "path": "debugger", 
-                "name": "GoogleUpdate.exe", 
-                "pub": "", 
-                "desc": ""
-            }
-        ], 
+        "keys": [], 
         "path": "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options", 
         "type": "key"
     }, 
     {
         "keys": [
             {
-                "path": "asdfas", 
+                "path": "", 
                 "name": "Autorun", 
                 "pub": "", 
                 "desc": ""
@@ -32,7 +19,7 @@ var imageHijacks = [
     {
         "keys": [
             {
-                "path": "sdsfsf", 
+                "path": "", 
                 "name": "Autorun", 
                 "pub": "", 
                 "desc": ""
@@ -44,7 +31,7 @@ var imageHijacks = [
     {
         "keys": [
             {
-                "path": "aaa", 
+                "path": "", 
                 "name": "Autorun", 
                 "pub": "", 
                 "desc": ""

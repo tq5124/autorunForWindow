@@ -134,8 +134,14 @@ def internetExplorer(input="json/interExplorer.json"):
 		print "reading from ", place['reg'], "...",
 		try:
 			temp = []
-			allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
+			if (place['reg'].find('UrlSearchHook') > -1):
+				allBHO = reg.readRegistry("readKeys", place['hiveKey'], place['reg'])
+				print "\n***", allBHO
+			else:
+				allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
 			for bho in allBHO:
+				if (type(bho) is list):
+					bho = bho[1]
 				clsid_name = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho, "")
 				clsid_path = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho + "\\InprocServer32", "")
 				fileInfo = files.getFileProperties(clsid_path)
@@ -217,22 +223,26 @@ def bootExecute():
 	print "read from ", regPath, "...",
 	output = {}
 	item = reg.readRegistry("readValue", "HKLM", "System\CurrentControlSet\Control\Session Manager", "BootExecute")
-	allBoot = item[0].split(" ")
-	for boot in allBoot:
-		try:
-			path = pathCheck(boot)
-			fileInfo = files.getFileProperties(path)
-			assert(fileInfo)
-			pub, desc = getDescPub(fileInfo)
-			output = {
-				"name": boot,
-				"path": path,
-				"desc": desc,
-				"pub": pub
-			}
-			break
-		except:
-			continue
+	item = item[0].split(' ')
+	name = item[0]
+	path = item[1]
+	try:
+		path = pathCheck(path)
+		fileInfo = files.getFileProperties(path)
+		pub, desc = getDescPub(fileInfo)
+		output = {
+			"name": name,
+			"path": path,
+			"desc": desc,
+			"pub": pub
+		}
+	except:
+		output = {
+			"name": item,
+			"path": '',
+			"desc": '',
+			"pub": ''
+		}
 	print "done"
 	print
 	with open('output/bootExecute.js', 'w') as outfile:
@@ -469,7 +479,7 @@ if __name__ == "__main__":
 	systemPath('json/systemPath.json')
 
 	# debug
-	#winlogon()
+	#bootExecute()
 	#exit()
 
 	# read items from registry and folder

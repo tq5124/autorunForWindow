@@ -1,6 +1,6 @@
 var bootExecute = {
     "path": "C:\\Windows\\SysWOW64\\autochk.exe", 
-    "name": "autochk", 
+    "name": "autocheck", 
     "pub": "Microsoft Corporation", 
     "desc": "Auto Check Utility"
 }
