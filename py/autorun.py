@@ -223,22 +223,26 @@ def bootExecute():
 	print "read from ", regPath, "...",
 	output = {}
 	item = reg.readRegistry("readValue", "HKLM", "System\CurrentControlSet\Control\Session Manager", "BootExecute")
-	allBoot = item[0].split(" ")
-	for boot in allBoot:
-		try:
-			path = pathCheck(boot)
-			fileInfo = files.getFileProperties(path)
-			assert(fileInfo)
-			pub, desc = getDescPub(fileInfo)
-			output = {
-				"name": boot,
-				"path": path,
-				"desc": desc,
-				"pub": pub
-			}
-			break
-		except:
-			continue
+	item = item[0].split(' ')
+	name = item[0]
+	path = item[1]
+	try:
+		path = pathCheck(path)
+		fileInfo = files.getFileProperties(path)
+		pub, desc = getDescPub(fileInfo)
+		output = {
+			"name": name,
+			"path": path,
+			"desc": desc,
+			"pub": pub
+		}
+	except:
+		output = {
+			"name": item,
+			"path": '',
+			"desc": '',
+			"pub": ''
+		}
 	print "done"
 	print
 	with open('output/bootExecute.js', 'w') as outfile:
@@ -481,7 +485,11 @@ if __name__ == "__main__":
 	systemPath('json/systemPath.json')
 
 	# debug
+<<<<<<< HEAD
 	#internetExplorer()
+=======
+	#bootExecute()
+>>>>>>> 79d55cdb9c568d0c9145acadf56e3f09d3e02371
 	#exit()
 
 	# read items from registry and folder
