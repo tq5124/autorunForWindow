@@ -1,5 +1,3 @@
-import win32api
-import win32con
 import _winreg
 
 def ReadRegistryValue(path, name="", start_key = None):
@@ -97,7 +95,7 @@ def readRegistry(method, hiveKey, key, name="", sysBit=64):
     if (method == "readItems"):
         return ReadRegistryItems(hiveKey, key)
     elif (method == "readKeys"):
-        return ReadRegistryKeys(hiveKey, key, sysBit)
+        return ReadRegistryKeys(hiveKey, key)
     elif (method == "readValue"):
         return ReadRegistryValue(key, name, hiveKey)
     else:

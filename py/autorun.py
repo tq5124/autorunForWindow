@@ -134,8 +134,14 @@ def internetExplorer(input="json/interExplorer.json"):
 		print "reading from ", place['reg'], "...",
 		try:
 			temp = []
-			allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
+			if (place['reg'].find('UrlSearchHook') > -1):
+				allBHO = reg.readRegistry("readKeys", place['hiveKey'], place['reg'])
+				print "\n***", allBHO
+			else:
+				allBHO = reg.readRegistry("readItems", place['hiveKey'], place['reg'])
 			for bho in allBHO:
+				if (type(bho) is list):
+					bho = bho[1]
 				clsid_name = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho, "")
 				clsid_path = reg.readRegistry("readValue", "HKLM", place['clsid'] + bho + "\\InprocServer32", "")
 				fileInfo = files.getFileProperties(clsid_path)
@@ -304,6 +310,7 @@ def winlogon(input='json/winLogon.json'):
 			if (item['method'] == 'readValue'):
 				name = item['name']
 				path = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
+				assert(path)
 				path = pathCheck(path)
 				pub, desc = getDescPub(files.getFileProperties(path))
 				temp.append({
@@ -316,7 +323,11 @@ def winlogon(input='json/winLogon.json'):
 				allItems = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
 				for i in allItems:
 					name = i
-					path = reg.readRegistry('readValue', 'HKLM', item['path'] + "\\" + i, 'DllName', item['sysBit'])
+					try:
+						path = reg.readRegistry('readValue', 'HKLM', item['path'] + "\\" + i, 'DllName', item['sysBit'])
+						assert(path)
+					except:
+						continue
 					path = pathCheck(path)
 					pub, desc = getDescPub(files.getFileProperties(path))
 					temp.append({
@@ -344,7 +355,7 @@ def winlogon(input='json/winLogon.json'):
 		json.dump(output, outfile, indent=4)
 
 def imageHijacks(input='json/imageHijacks.json'):
-	print "winlogon:"
+	print "imageHijacks:"
 	output = []
 	data = json.load(file(input))
 	for item in data:
@@ -355,6 +366,7 @@ def imageHijacks(input='json/imageHijacks.json'):
 				name = item['name']
 				path = reg.readRegistry(item['method'], item['hiveKey'], item['path'], item['name'], item['sysBit'])
 				path = pathCheck(path)
+				assert(path)
 				pub, desc = getDescPub(files.getFileProperties(path))
 				temp.append({
 					"name": name,
@@ -469,7 +481,7 @@ if __name__ == "__main__":
 	systemPath('json/systemPath.json')
 
 	# debug
-	#winlogon()
+	#internetExplorer()
 	#exit()
 
 	# read items from registry and folder
