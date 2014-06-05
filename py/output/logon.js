@@ -2,6 +2,18 @@ var logon = [
     {
         "keys": [
             {
+                "path": "c:\\windows\\system32\\rdpclip.exe", 
+                "name": "rdpclip", 
+                "pub": "Microsoft Corporation", 
+                "desc": "RDP Clip \u76d1\u89c6\u7a0b\u5e8f"
+            }
+        ], 
+        "path": "HKLM\\System\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd", 
+        "type": "key"
+    }, 
+    {
+        "keys": [
+            {
                 "path": "C:\\Windows\\system32\\userinit.exe", 
                 "name": "C:\\Windows\\system32\\userinit.exe,", 
                 "pub": "Microsoft Corporation", 
@@ -30,12 +42,6 @@ var logon = [
                 "name": "VMware User Process", 
                 "pub": "VMware, Inc.", 
                 "desc": "VMware Tools Core Service"
-            }, 
-            {
-                "path": "cmd /c start echo hklm\\soft\\ms\\win\\curVer\\run", 
-                "name": "check", 
-                "pub": "", 
-                "desc": ""
             }
         ], 
         "path": "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", 
@@ -60,12 +66,6 @@ var logon = [
                 "name": "iTunesHelper", 
                 "pub": "Apple Inc.", 
                 "desc": "iTunesHelper"
-            }, 
-            {
-                "path": "cmd.exe /c start echo HKLM\\soft\\32\\ms\\win\\curVer\\run", 
-                "name": "check", 
-                "pub": "", 
-                "desc": ""
             }
         ], 
         "path": "HKLM\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run", 
@@ -95,12 +95,6 @@ var logon = [
                 "name": "DAEMON Tools Lite", 
                 "pub": "Disc Soft Ltd", 
                 "desc": "DAEMON Tools Lite"
-            }, 
-            {
-                "path": "cmd /c start echo hkcu\\soft\\ms\\win\\curVer\\run", 
-                "name": "check", 
-                "pub": "", 
-                "desc": ""
             }
         ], 
         "path": "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", 

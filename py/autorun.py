@@ -484,14 +484,6 @@ if __name__ == "__main__":
 	# read system path files as a global resource
 	systemPath('json/systemPath.json')
 
-	# debug
-<<<<<<< HEAD
-	#internetExplorer()
-=======
-	#bootExecute()
->>>>>>> 79d55cdb9c568d0c9145acadf56e3f09d3e02371
-	#exit()
-
 	# read items from registry and folder
 	logon('json/logon.json')
 	service()
