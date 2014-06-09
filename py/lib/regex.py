@@ -33,7 +33,7 @@ def rePath(path):
 	return path
 
 def reFileName(name):
-	# clean the extension of the filename
+	# clean the extension of the filename, like "cmd.exe" to "cmd"
 	try:
 		name = re.match('[a-z]*(?=\.)', name).group(0)
 		return name

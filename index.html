@@ -31,7 +31,7 @@
 					<div ng-repeat="reg in tabData">
 						<h4 style="color: #428bca;">
 							<span ng-show="reg.type === 'files'" class="glyphicon glyphicon-folder-open"></span>
-							<span ng-show="reg.type === 'key' || reg.type === 'keys'" class="glyphicon glyphicon-list-alt"></span>
+							<span ng-show="reg.type !== 'files'" class="glyphicon glyphicon-list-alt"></span>
 							&nbsp;&nbsp;{{reg.path}}
 						</h4>
 						<table class="table table-responsive table-hover table-condensed" ng-show="reg.keys">
@@ -51,6 +51,10 @@
 					</div>
 				</div>
 				<div ng-if="tab === 'services'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						&nbsp;&nbsp;HKLM\SYSTEM\CurrentControlSet\services
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -91,6 +95,10 @@
 					</div>
 				</div>
 				<div ng-if="tab === 'drivers'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						&nbsp;&nbsp;HKLM\SYSTEM\CurrentControlSet\services
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -107,6 +115,10 @@
 					</table>
 				</div>
 				<div ng-if="tab === 'scheduledTasks'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-folder-open"></span>
+						&nbsp;&nbsp;C:\Windows\Tasks
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -123,6 +135,10 @@
 					</table>
 				</div>
 				<div ng-if="tab === 'bootExecute'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						&nbsp;&nbsp;HKLM\System\CurrentControlSet\Control\Session Manager\BootExecute
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -139,6 +155,10 @@
 					</table>
 				</div>
 				<div ng-if="tab === 'knownDlls'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						&nbsp;&nbsp;HKLM\System\CurrentControlSet\Control\Session Manager\KnownDlls
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -155,6 +175,10 @@
 					</table>
 				</div>
 				<div ng-if="tab === 'winsocket'">
+					<h4 style="color: #428bca;">
+						<span class="glyphicon glyphicon-list-alt"></span>
+						&nbsp;&nbsp;HKLM\System\CurrentControlSet\Services\WinSock2\Parameters\Protocol_Catalog9
+					</h4>
 					<table class="table table-responsive table-hover table-condensed">
 						<tr>
 							<th>Name</th>
@@ -174,7 +198,7 @@
 					<div ng-repeat="reg in tabData">
 						<h4 style="color: #428bca;">
 							<span ng-show="reg.type === 'files'" class="glyphicon glyphicon-folder-open"></span>
-							<span ng-show="reg.type === 'key' || reg.type === 'keys'" class="glyphicon glyphicon-list-alt"></span>
+							<span ng-show="reg.type !== 'files'" class="glyphicon glyphicon-list-alt"></span>
 							&nbsp;&nbsp;{{reg.path}}
 						</h4>
 						<table class="table table-responsive table-hover table-condensed" ng-show="reg.keys">
@@ -197,7 +221,7 @@
 					<div ng-repeat="reg in tabData">
 						<h4 style="color: #428bca;">
 							<span ng-show="reg.type === 'files'" class="glyphicon glyphicon-folder-open"></span>
-							<span ng-show="reg.type === 'key' || reg.type === 'keys'" class="glyphicon glyphicon-list-alt"></span>
+							<span ng-show="reg.type !== 'files'" class="glyphicon glyphicon-list-alt"></span>
 							&nbsp;&nbsp;{{reg.path}}
 						</h4>
 						<table class="table table-responsive table-hover table-condensed" ng-show="reg.keys">

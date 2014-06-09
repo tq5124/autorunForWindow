@@ -1,14 +1,14 @@
 var scheduledTasks = [
     {
-        "path": "C:\\Program Files (x86)\\Google\\Update\\GoogleUpdate.exe\u0000", 
+        "path": "", 
         "name": "GoogleUpdateTaskMachineCore.job", 
-        "pub": "Google Inc.", 
-        "desc": "Google \u5b89\u88c5\u7a0b\u5e8f"
+        "pub": "", 
+        "desc": ""
     }, 
     {
-        "path": "C:\\Program Files (x86)\\Google\\Update\\GoogleUpdate.exe\u0000", 
+        "path": "", 
         "name": "GoogleUpdateTaskMachineUA.job", 
-        "pub": "Google Inc.", 
-        "desc": "Google \u5b89\u88c5\u7a0b\u5e8f"
+        "pub": "", 
+        "desc": ""
     }
 ]

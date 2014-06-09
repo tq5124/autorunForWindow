@@ -174,10 +174,10 @@ var services = [
         "desc": "\u5de5\u4f5c\u7ad9\u670d\u52a1 DLL"
     }, 
     {
-        "path": "C:\\Windows\\System32\\lmhsvc.dll", 
+        "path": "C:\\Windows\\system32\\svchost.exe", 
         "name": "lmhosts", 
         "pub": "Microsoft Corporation", 
-        "desc": "TCPIP NetBios \u4f20\u8f93\u670d\u52a1 DLL"
+        "desc": "Windows \u670d\u52a1\u4e3b\u8fdb\u7a0b"
     }, 
     {
         "path": "C:\\Windows\\system32\\mmcss.dll", 
@@ -192,16 +192,16 @@ var services = [
         "desc": "Microsoft \u4fdd\u62a4\u670d\u52a1"
     }, 
     {
-        "path": "C:\\Windows\\System32\\nlasvc.dll", 
+        "path": "C:\\Windows\\System32\\svchost.exe", 
         "name": "NlaSvc", 
         "pub": "Microsoft Corporation", 
-        "desc": "\u7f51\u7edc\u4f4d\u7f6e\u611f\u77e5 2"
+        "desc": "Windows \u670d\u52a1\u4e3b\u8fdb\u7a0b"
     }, 
     {
-        "path": "C:\\Windows\\system32\\nsisvc.dll", 
+        "path": "C:\\Windows\\system32\\svchost.exe", 
         "name": "nsi", 
         "pub": "Microsoft Corporation", 
-        "desc": "Network \u5b58\u50a8\u754c\u9762 RPC \u670d\u52a1\u5668"
+        "desc": "Windows \u670d\u52a1\u4e3b\u8fdb\u7a0b"
     }, 
     {
         "path": "C:\\Windows\\System32\\pcasvc.dll", 

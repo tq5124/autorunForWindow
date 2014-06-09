@@ -64,7 +64,14 @@ var internetExplorer = [
         "reg": "HKLM\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Browser Helper Objects"
     }, 
     {
-        "keys": [], 
+        "keys": [
+            {
+                "path": "C:\\Windows\\System32\\ieframe.dll", 
+                "name": "Microsoft Url Search Hook", 
+                "pub": "Microsoft Corporation", 
+                "desc": "Internet \u6d4f\u89c8\u5668"
+            }
+        ], 
         "reg": "HKCU\\Software\\Microsoft\\Internet Explorer\\UrlSearchHooks"
     }, 
     {
