@@ -12,12 +12,12 @@ requried
 
 ## Run
 
-wget https://github.com/tq5124/autorunForWindow/archive/1.0.tar.gz
-tar -xf autorunForWindow-1.0.tar.gz
-cd autorunForWindow-1.0/py
-python autorun.py
-cd ..
-//open the index.html in brower
+* wget https://github.com/tq5124/autorunForWindow/archive/1.0.tar.gz
+* tar -xf autorunForWindow-1.0.tar.gz
+* cd autorunForWindow-1.0/py
+* python autorun.py
+* cd ..
+* //open the index.html in brower
 
 ## lib api
 
