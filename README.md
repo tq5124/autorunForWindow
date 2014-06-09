@@ -4,9 +4,11 @@ check auto run services and process by searching in registry and folders, tested
 
 ## Install
 
-requried:   python 2.7 64bit
-            pywin32 64bit
-            window7 64bit(I have not tested the 32bit, but I think it works)
+requried
+
+* python 2.7 64bit
+* pywin32 64bit
+* window7 64bit(I have not tested the 32bit, but I think it works)
 
 ## Run
 
@@ -36,7 +38,7 @@ It will be pleaced if anyone need lib file here
         * name
             * only used in readValue
         * sysBit
-            * read 32bit or 64bit registry (designed for [window registry redirection](http://msdn.microsoft.com/en-us/library/windows/desktop/aa384232(v=vs.85).aspx)), used only in readKeys
+            * firstly designed for [window registry redirection](http://msdn.microsoft.com/en-us/library/windows/desktop/aa384232(v=vs.85).aspx), because I try to run a 32bit python in window 64. Now this arg has been **abandoned**!
 * py/lib/filespy
     * getFileProperties(path)
         * give the path and return a dict of file informations
